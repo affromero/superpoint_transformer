@@ -67,7 +67,7 @@ def read_kitti360_window(
 
         if xyz:
             pos = torch.stack([
-                torch.FloatTensor(window["vertex"][axis])
+                torch.FloatTensor(window["vertex"][axis].copy())
                 for axis in ["x", "y", "z"]], dim=-1)
             pos_offset = pos[0]
             data.pos = pos - pos_offset
