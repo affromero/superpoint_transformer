@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from torch import Tensor, LongTensor
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 from torchmetrics.detection.mean_ap import MeanAveragePrecision
-from torchmetrics.utilities.imports import _TORCHVISION_GREATER_EQUAL_0_8
+# from torchmetrics.utilities.imports import _TORCHVISION_GREATER_EQUAL_0_8
 from torch_geometric.nn.pool.consecutive import consecutive_cluster
 from src.data import InstanceData, InstanceBatch
 from src.utils import arange_interleave, sizes_to_pointers
@@ -207,12 +207,12 @@ class MeanAveragePrecision3D(MeanAveragePrecision):
     ) -> None:
         super().__init__(compute_on_cpu=compute_on_cpu, **kwargs)
 
-        if not _TORCHVISION_GREATER_EQUAL_0_8:
-            raise ModuleNotFoundError(
-                f"`{self.__class__.__name__}` metric requires that "
-                f"`torchvision` version 0.8.0 or newer is installed. "
-                f"Please install with `pip install torchvision>=0.8` or "
-                f"`pip install torchmetrics[detection]`.")
+        # if not _TORCHVISION_GREATER_EQUAL_0_8:
+        #     raise ModuleNotFoundError(
+        #         f"`{self.__class__.__name__}` metric requires that "
+        #         f"`torchvision` version 0.8.0 or newer is installed. "
+        #         f"Please install with `pip install torchvision>=0.8` or "
+        #         f"`pip install torchmetrics[detection]`.")
 
         # Store the number of valid semantic classes in the dataset
         self.num_classes = num_classes
