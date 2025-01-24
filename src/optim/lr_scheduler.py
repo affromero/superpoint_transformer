@@ -65,7 +65,7 @@ class _WarmupLR(_LRScheduler):
                 return self._scheduler
             else:
                 return
-        return getattr(self._scheduler, name)
+        return getattr(self._scheduler, name)  # @IgnoreException
 
     def state_dict(self):
         """Returns the state of the scheduler as a :class:`dict`.
