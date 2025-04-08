@@ -7,12 +7,12 @@ dev = [
   "black>=24.10.0,<25",
   "isort>=5.13.2,<6",
   "mypy>=1.14.0,<2",
-  "poethepoet>=0.18.1,<0.19",
+  "poethepoet==0.33",
   "pre-commit>=4.0.1,<5",
   "pylint>=3.3.2,<4",
   "pytest-cov>=4.1.0,<5",
   "pytest>=8.3.4,<9",
-  "toml-sort>=0.24.2,<0.25"
+  "toml-sort>=0.24.2,<0.25",
 ]
 
 [project]
