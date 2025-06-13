@@ -78,11 +78,7 @@ dependencies = [
   "termcolor>=2.3.0,<3",
   "terminaltables>=3.1.10,<4",
   "timm>=0.6.7",
-  "torch-scatter",
-  "torch==2.4.1",
   "torchinfo>=1.8.0,<2",
-  "torchvision~=0.19.1",
-  "tqdm>=4.65.0,<5",
   "transformers>=4.45.2,<5",
   "transforms3d>=0.4.1,<0.5",
   "typeguard>=4.4.1,<5",
@@ -102,20 +98,32 @@ dependencies = [
   "torch-geometric==2.3.0",
   "ipywidgets>=8.1.5",
   "ipyfilechooser>=0.6.0",
-  "torch-cluster",
   "hydra-core>=1.3.2",
   "omegaconf>=2.3.0",
   "hydra-colorlog>=1.2.0",
+  "tqdm>=4.67.1",
 ]
 description = ""
 name = "superpoint_transformer"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.11"
 version = "0.1.0"
 
 [project.optional-dependencies]
 metric = [
     "torchmetrics==0.11.4",
+]
+cpu = [
+  "torch",
+  "torchvision",
+  "torch-cluster",
+  "torch-scatter"
+]
+cu121 = [
+  "torch",
+  "torchvision",
+  "torch-cluster",
+  "torch-scatter"
 ]
 
 [tool.hatch.build.targets.sdist]
@@ -128,18 +136,33 @@ include = [
   "src"
 ]
 
-
 [tool.tomlsort]
 all = true
 
-[[tool.uv.index]]
-explicit = true
-name = "Pytorch_Cuda"
-url = "https://download.pytorch.org/whl/cu121"
+[tool.uv]
+conflicts = [
+  [
+    {extra = "cpu"},
+    {extra = "cu121"},
+  ]
+]
+environments = ["sys_platform == 'linux'"]
 
 [tool.uv.sources]
-torch = {index = "Pytorch_Cuda"}
-torch-scatter = {url = "https://data.pyg.org/whl/torch-2.4.0%2Bcu121/torch_scatter-2.1.2%2Bpt24cu121-cp310-cp310-linux_x86_64.whl"}
-torchvision = {index = "Pytorch_Cuda"}
 pgeof = { git = "https://github.com/drprojects/point_geometric_features.git" }
-torch-cluster = { url = "https://data.pyg.org/whl/torch-2.4.0%2Bcu121/torch_cluster-1.6.3%2Bpt24cu121-cp310-cp310-linux_x86_64.whl" }
+torch = [
+  {extra = "cpu", url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
+  {extra = "cu121", url = "https://download.pytorch.org/whl/cu121/torch-2.5.1%2Bcu121-cp310-cp310-linux_x86_64.whl"}
+]
+torch-cluster = [
+  {extra = "cpu", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcpu/torch_cluster-1.6.3%2Bpt25cpu-cp310-cp310-linux_x86_64.whl"},
+  {extra = "cu121", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcu121/torch_cluster-1.6.3%2Bpt25cu121-cp310-cp310-linux_x86_64.whl"},
+]
+torch-scatter = [
+  {extra = "cpu", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcpu/torch_scatter-2.1.2%2Bpt25cpu-cp310-cp310-linux_x86_64.whl"},
+  {extra = "cu121", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcu121/torch_scatter-2.1.2%2Bpt25cu121-cp310-cp310-linux_x86_64.whl"},
+]
+torchvision = [
+  {extra = "cpu", url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
+  {extra = "cu121", url = "https://download.pytorch.org/whl/cu121/torchvision-0.20.1%2Bcu121-cp310-cp310-linux_x86_64.whl"}
+]
