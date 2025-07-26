@@ -74,6 +74,10 @@ dependencies = [
   "sk-video>=1.1.10,<2",
   "supervision>=0.11.1,<0.12",
   "tabulate>=0.9.0,<0.10",
+  "torch",
+  "torchvision",
+  "torch-cluster",
+  "torch-scatter",
   "tensorboard==2.13",
   "termcolor>=2.3.0,<3",
   "terminaltables>=3.1.10,<4",
@@ -113,18 +117,6 @@ version = "0.1.0"
 metric = [
     "torchmetrics==0.11.4",
 ]
-cpu = [
-  "torch",
-  "torchvision",
-  "torch-cluster",
-  "torch-scatter"
-]
-cu121 = [
-  "torch",
-  "torchvision",
-  "torch-cluster",
-  "torch-scatter"
-]
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -140,29 +132,9 @@ include = [
 all = true
 
 [tool.uv]
-conflicts = [
-  [
-    {extra = "cpu"},
-    {extra = "cu121"},
-  ]
-]
 environments = ["sys_platform == 'linux'"]
+# Disable build isolation for torch to allow custom compilation
+no-build-isolation = ["torch", "torch-cluster", "torch-scatter", "torchvision"]
 
 [tool.uv.sources]
 pgeof = { git = "https://github.com/drprojects/point_geometric_features.git" }
-torch = [
-  {extra = "cpu", url = "https://download.pytorch.org/whl/cpu/torch-2.5.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
-  {extra = "cu121", url = "https://download.pytorch.org/whl/cu121/torch-2.5.1%2Bcu121-cp310-cp310-linux_x86_64.whl"}
-]
-torch-cluster = [
-  {extra = "cpu", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcpu/torch_cluster-1.6.3%2Bpt25cpu-cp310-cp310-linux_x86_64.whl"},
-  {extra = "cu121", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcu121/torch_cluster-1.6.3%2Bpt25cu121-cp310-cp310-linux_x86_64.whl"},
-]
-torch-scatter = [
-  {extra = "cpu", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcpu/torch_scatter-2.1.2%2Bpt25cpu-cp310-cp310-linux_x86_64.whl"},
-  {extra = "cu121", url = "https://data.pyg.org/whl/torch-2.5.0%2Bcu121/torch_scatter-2.1.2%2Bpt25cu121-cp310-cp310-linux_x86_64.whl"},
-]
-torchvision = [
-  {extra = "cpu", url = "https://download.pytorch.org/whl/cpu/torchvision-0.20.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
-  {extra = "cu121", url = "https://download.pytorch.org/whl/cu121/torchvision-0.20.1%2Bcu121-cp310-cp310-linux_x86_64.whl"}
-]
