@@ -4,6 +4,7 @@ import glob
 import torch
 import shutil
 import logging
+import numpy as np
 from zipfile import ZipFile
 from plyfile import PlyData
 from typing import List
@@ -67,7 +68,7 @@ def read_kitti360_window(
 
         if xyz:
             pos = torch.stack([
-                torch.tensor(window["vertex"][axis], dtype=torch.float)
+                torch.tensor(np.array(window["vertex"][axis]).copy(), dtype=torch.float)
                 for axis in ["x", "y", "z"]], dim=-1)
             pos_offset = pos[0]
             data.pos = pos - pos_offset
@@ -75,16 +76,16 @@ def read_kitti360_window(
 
         if rgb:
             data.rgb = to_float_rgb(torch.stack([
-                torch.tensor(window["vertex"][axis], dtype=torch.float)
+                torch.tensor(np.array(window["vertex"][axis]).copy(), dtype=torch.float)
                 for axis in ["red", "green", "blue"]], dim=-1))
 
         if semantic and 'semantic' in attributes:
-            y = torch.tensor(window["vertex"]['semantic'], dtype=torch.long)
+            y = torch.tensor(np.array(window["vertex"]['semantic']).copy(), dtype=torch.long)
             data.y = torch.from_numpy(ID2TRAINID)[y] if remap else y
 
         if instance and 'instance' in attributes:
             idx = torch.arange(data.num_points)
-            obj = torch.tensor(window["vertex"]['instance'], dtype=torch.long)
+            obj = torch.tensor(np.array(window["vertex"]['instance']).copy(), dtype=torch.long)
             # is_stuff = obj % 1000 == 0
             # obj[is_stuff] = 0
             obj = consecutive_cluster(obj)[0]
