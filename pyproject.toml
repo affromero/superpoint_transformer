@@ -17,7 +17,7 @@ dev = [
 
 [project]
 authors = [{name = "Damien Robert, Hugo Raguet, Loic Landrieu"}]
-dependencies = []
+dependencies = ["pgeof", "pycut-pursuit", "pygrid-graph", "torch-ransac3d"]
 description = ""
 name = "superpoint_transformer"
 readme = "README.md"
