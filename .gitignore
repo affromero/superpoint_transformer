@@ -162,3 +162,4 @@ configs/local/default.yaml
 *__pycache__*
 *.ipynb*
 notebooks/*
+ckpt/

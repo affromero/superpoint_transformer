@@ -122,7 +122,9 @@ class PanopticQuality3D(Metric):
             compute_on_cpu: bool = False,
             **kwargs: Any
     ) -> None:
-        super().__init__(compute_on_cpu=compute_on_cpu, **kwargs)
+        # Note: We don't pass **kwargs to parent because torchmetrics >= 1.0
+        # is stricter about unexpected keyword arguments
+        super().__init__(compute_on_cpu=compute_on_cpu)
 
         # Store the number of valid classes in the dataset
         self.num_classes = num_classes
