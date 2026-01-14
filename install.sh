@@ -1,21 +1,33 @@
 #!/bin/bash
 set -e
 
+# Parse arguments
+FORCE_REINSTALL=false
+for arg in "$@"; do
+    case $arg in
+        --force-reinstall)
+            FORCE_REINSTALL=true
+            shift
+            ;;
+    esac
+done
+
 echo "⭐ Installing FRNN"
 
 # install a prefix_sum routine first
 cd src/dependencies/FRNN/external/prefix_sum
-rm -rf build
+if [ "$FORCE_REINSTALL" = true ]; then
+    rm -rf build
+fi
 python -m setup install
 
 # install FRNN
 cd ../../ # back to the {FRNN} directory
-rm -rf build
+if [ "$FORCE_REINSTALL" = true ]; then
+    rm -rf build
+fi
 python -m setup install
 cd ../../../
-
-# Compile the projects
-python scripts/setup_dependencies.py build_ext
 
 # let user know
 echo
