@@ -19,14 +19,14 @@ cd src/dependencies/FRNN/external/prefix_sum
 if [ "$FORCE_REINSTALL" = true ]; then
     rm -rf build
 fi
-python -m setup install
+python -m pip install .
 
 # install FRNN
 cd ../../ # back to the {FRNN} directory
 if [ "$FORCE_REINSTALL" = true ]; then
     rm -rf build
 fi
-python -m setup install
+python -m pip install .
 cd ../../../
 
 # let user know
